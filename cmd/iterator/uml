@@ -1,0 +1,56 @@
+@startuml
+
+' Define the Iterator Interface
+interface Iterator {
+    +HasNext() : bool
+    +GetNext() : interface{}
+}
+
+' Define the Directory Iterator
+class DirectoryIterator {
+    -path : string
+    -files : []string
+    -nextIndex : int
+    +HasNext() : bool
+    +GetNext() : interface{}
+}
+
+' Define the Line By Line Iterator
+class LineByLineIterator {
+    -path : string
+    -fobj : *os.File
+    -scanner : *bufio.Scanner
+    -hasMore : bool
+    -isClosed : bool
+    +HasNext() : bool
+    +GetNext() : interface{}
+    +Close() : error
+}
+
+' Define the Flyweight Factory
+class ModelWeightsFlyweightFactory {
+    -weightsCache : map[string]*ModelWeights
+    +GetModelWeights(modelName : string) : *ModelWeights
+}
+
+' Define the Flyweight
+class ModelWeights {
+    -Weights : []float64
+}
+
+' Define the Client
+class Client {
+    +main()
+    +ProcessFile(filePath : string)
+}
+
+' Relationships
+Iterator <|.. DirectoryIterator
+Iterator <|.. LineByLineIterator
+ModelWeightsFlyweightFactory "1" -right-> "0..*" ModelWeights : creates/manages >
+ModelWeightsFlyweightFactory -down-> LineByLineIterator : uses >
+Client -right-> DirectoryIterator : uses >
+Client -down-> ModelWeightsFlyweightFactory : uses >
+Client -left-> ModelWeights : uses indirectly >
+
+@enduml

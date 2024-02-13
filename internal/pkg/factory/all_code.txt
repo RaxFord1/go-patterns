@@ -1,0 +1,99 @@
+package factory
+
+import (
+	"errors"
+	"github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME/internal/pkg/factory/factory_models"
+	"github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME/internal/pkg/ml_model"
+)
+
+type ModelFactory interface {
+	CreateModel() ml_model.Model
+}
+
+func NewModelFactory(modelType string) (ml_model.Model, error) {
+	switch modelType {
+	case "linear_regression":
+		return factory_models.NewLinearRegression(), nil
+	case "neural_network":
+		return factory_models.NewNeuralNetwork(), nil
+	case "decision_tree":
+		return factory_models.NewDecisionTree(), nil
+	default:
+		return nil, errors.New("unknown model type")
+	}
+}
+package factory_models
+
+import (
+	"fmt"
+	"github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME/internal/pkg/ml_model"
+)
+
+type decisionTree struct {
+	// Додаткові поля та параметри для дерева рішень
+}
+
+func (dt *decisionTree) Train(data [][]float64, labels []float64) {
+	// Логіка тренування дерева рішень
+	fmt.Println("decisionTree Train method")
+}
+
+func (dt *decisionTree) Predict(data []float64) float64 {
+	// Логіка прогнозу за допомогою дерева рішень
+	fmt.Println("decisionTree Predict method")
+	return 0
+}
+
+func NewDecisionTree() ml_model.Model {
+	return &decisionTree{}
+}
+package factory_models
+
+import (
+	"fmt"
+	"github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME/internal/pkg/ml_model"
+)
+
+type linearRegression struct {
+	// Додаткові поля та параметри для лінійної регресії
+}
+
+func (lr *linearRegression) Train(data [][]float64, labels []float64) {
+	// Логіка тренування лінійної регресії
+	fmt.Println("linearRegression Train method")
+}
+
+func (lr *linearRegression) Predict(data []float64) float64 {
+	// Логіка прогнозу за допомогою лінійної регресії
+	fmt.Println("linearRegression Predict method")
+	return 0
+}
+
+func NewLinearRegression() ml_model.Model {
+	return &linearRegression{}
+}
+package factory_models
+
+import (
+	"fmt"
+	"github.com/YOUR-USER-OR-ORG-NAME/YOUR-REPO-NAME/internal/pkg/ml_model"
+)
+
+type neuralNetwork struct {
+	// Додаткові поля та параметри для нейронної мережі
+}
+
+func (nn *neuralNetwork) Train(data [][]float64, labels []float64) {
+	// Логіка тренування нейронної мережі
+	fmt.Println("neuralNetwork Train method")
+}
+
+func (nn *neuralNetwork) Predict(data []float64) float64 {
+	// Логіка прогнозу за допомогою нейронної мережі
+	fmt.Println("neuralNetwork Predict method")
+	return 0
+}
+
+func NewNeuralNetwork() ml_model.Model {
+	return &neuralNetwork{}
+}

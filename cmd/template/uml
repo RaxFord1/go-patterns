@@ -1,0 +1,41 @@
+@startuml
+
+' Define the Template Method Interface
+interface IMLPipeline {
+    +PreprocessData()
+    +TrainModel()
+    +EvaluateModel()
+}
+
+' Define the Concrete Implementations
+class SupervisedLearningPipeline {
+    +PreprocessData()
+    +TrainModel()
+    +EvaluateModel()
+}
+
+class UnsupervisedLearningPipeline {
+    +PreprocessData()
+    +TrainModel()
+    +EvaluateModel()
+}
+
+' Define the Context Class
+class MlPipeline {
+    -mlPipeline : IMLPipeline
+    +RunPipeline() : error
+    +ChangePipeline(pipeline : IMLPipeline)
+}
+
+' Define the Client
+class Client {
+    +main()
+}
+
+' Relationships
+IMLPipeline <|.. SupervisedLearningPipeline
+IMLPipeline <|.. UnsupervisedLearningPipeline
+MlPipeline -right-> IMLPipeline : uses >
+Client -down-> MlPipeline : uses >
+
+@enduml

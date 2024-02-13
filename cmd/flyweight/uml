@@ -1,0 +1,31 @@
+@startuml
+
+' Define the Flyweight
+class ModelWeights {
+    -Weights : []float64
+}
+
+' Define the Flyweight Factory
+class ModelWeightsFlyweightFactory {
+    -weightsCache : map[string]*ModelWeights
+    +GetModelWeights(modelName : string) : *ModelWeights
+}
+
+' Define the Client
+class Client {
+    +main()
+}
+
+' Define the Context (Optional)
+class Model {
+    -Weights : *ModelWeights
+    +LoadWeights(modelName : string) : *ModelWeights
+}
+
+' Relationships
+ModelWeightsFlyweightFactory "1" -right-> "0..*" ModelWeights : creates/manages >
+Client -down-> ModelWeightsFlyweightFactory : requests >
+Client -down-> Model : uses >
+Model -down-> ModelWeights : uses >
+
+@enduml

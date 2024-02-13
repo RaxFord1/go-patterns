@@ -1,0 +1,49 @@
+// PlantUML
+
+@startuml
+
+' Define the Model Interface
+interface Model {
+    +Train(data : double[][], labels : double[])
+    +Predict(data : double[]) : double
+}
+
+' Define Concrete Models
+class decisionTree {
+    +Train(data : double[][], labels : double[])
+    +Predict(data : double[]) : double
+}
+
+class linearRegression {
+    +Train(data : double[][], labels : double[])
+    +Predict(data : double[]) : double
+}
+
+class neuralNetwork {
+    +Train(data : double[][], labels : double[])
+    +Predict(data : double[]) : double
+}
+
+
+class NewModelFactory {
+    +NewModelFactory(modelType : string) : Model, error
+}
+
+' Define Relationships
+Model <|.up. decisionTree
+Model <|.up. linearRegression
+Model <|.up. neuralNetwork
+
+' Define Client
+class Client {
+    +main()
+}
+
+Client .down.> NewModelFactory : uses
+
+NewModelFactory .down.> linearRegression : builds
+NewModelFactory .down.> neuralNetwork : builds
+NewModelFactory .down.> decisionTree : builds
+
+
+@enduml

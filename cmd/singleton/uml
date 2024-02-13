@@ -1,0 +1,24 @@
+@startuml
+
+' Define the Singleton Class
+class singleCounter {
+    -N : int
+    +Increase() : int
+    -singleCounter()
+}
+
+' Define the Singleton Access Function
+class Singleton {
+    +GetCounter() : singleCounter
+}
+
+' Define the Client
+class Client {
+    +main()
+}
+
+' Relationships
+Singleton ..> singleCounter : creates >
+Client .down.> Singleton : uses >
+
+@enduml

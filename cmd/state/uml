@@ -1,0 +1,57 @@
+@startuml
+
+' Define the State Interface
+interface MLState {
+    +ProcessData(context : MLProcess)
+    +TrainModel(context : MLProcess)
+    +EvaluateModel(context : MLProcess)
+    +DeployModel(context : MLProcess)
+}
+
+' Define the Context Class
+class MLProcess {
+    -State : MLState
+    +SetState(state : MLState)
+    +ProcessData()
+    +TrainModel()
+    +EvaluateModel()
+    +DeployModel()
+}
+
+' Define Concrete States
+class DataPreparationState {
+    +ProcessData(context : MLProcess)
+    +TrainModel(context : MLProcess)
+    +EvaluateModel(context : MLProcess)
+    +DeployModel(context : MLProcess)
+}
+
+class TrainingState {
+    +ProcessData(context : MLProcess)
+    +TrainModel(context : MLProcess)
+    +EvaluateModel(context : MLProcess)
+    +DeployModel(context : MLProcess)
+}
+
+class EvaluationState {
+    +ProcessData(context : MLProcess)
+    +TrainModel(context : MLProcess)
+    +EvaluateModel(context : MLProcess)
+    +DeployModel(context : MLProcess)
+}
+
+class DeploymentState {
+    +ProcessData(context : MLProcess)
+    +TrainModel(context : MLProcess)
+    +EvaluateModel(context : MLProcess)
+    +DeployModel(context : MLProcess)
+}
+
+' Relationships
+MLState <|.. DataPreparationState
+MLState <|.. TrainingState
+MLState <|.. EvaluationState
+MLState <|.. DeploymentState
+MLProcess -right-> MLState : Current State
+
+@enduml

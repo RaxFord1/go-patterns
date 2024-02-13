@@ -1,0 +1,81 @@
+// PlantUML
+
+@startuml
+
+interface ModelBuilder {
+    +setData(data : double[][], target : double[]) : ModelBuilder
+    +preprocess() : ModelBuilder
+    +tuneHyperparameters() : ModelBuilder
+    +trainModel() : ModelBuilder
+    +build() : Model
+}
+
+class Director {
+    -builder : ModelBuilder
+    +construct(data : double[][], target : double[]) : Model
+}
+
+class RegressionBuilder {
+    +setData(data : double[][], target : double[]) : ModelBuilder
+    +preprocess() : ModelBuilder
+    +tuneHyperparameters() : ModelBuilder
+    +trainModel() : ModelBuilder
+    +build() : Model
+}
+
+class ClassificationBuilder {
+    +setData(data : double[][], target : double[]) : ModelBuilder
+    +preprocess() : ModelBuilder
+    +tuneHyperparameters() : ModelBuilder
+    +trainModel() : ModelBuilder
+    +build() : Model
+}
+
+class RegressionModel {
+    +setData(data : double[][], target : double[])
+    +preprocess()
+    +tuneHyperparameters()
+    +train()
+    +predict(input : double[]) : double
+}
+
+class ClassificationModel {
+    +setData(data : double[][], target : double[])
+    +preprocess()
+    +tuneHyperparameters()
+    +train()
+    +predict(input : double[]) : double
+}
+
+
+interface Model {
+    +setData(data : double[][], target : double[])
+    +preprocess()
+    +tuneHyperparameters()
+    +train()
+    +predict(input : double[]) : double
+}
+
+class Client {
+    -builder : ModelBuilder
+    +main()
+}
+
+RegressionBuilder .down.> RegressionModel : builds
+ClassificationBuilder .down.> ClassificationModel : builds
+
+ModelBuilder <|.. RegressionBuilder
+ModelBuilder <|.. ClassificationBuilder
+
+Model <|.up. RegressionModel
+Model <|.up. ClassificationModel
+
+
+Director o-> ModelBuilder : uses >
+Client -> RegressionBuilder : uses >
+Client -> ClassificationBuilder : uses >
+Client -> Director : directs building process >
+
+
+
+@enduml

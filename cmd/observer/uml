@@ -1,0 +1,44 @@
+@startuml
+
+' Define the Observable Interface
+interface IObservable {
+    +AddSubscriber(subscriber : ISubscriber)
+    +RemoveSubscriber(subscriber : ISubscriber)
+    +Notify()
+}
+
+' Define the Subscriber Interface
+interface ISubscriber {
+    +Update(ctx : Context)
+}
+
+' Define the Concrete Observable
+class AutoMLTrainer {
+    -isTraining : bool
+    -Subscribers : ISubscriber[]
+    -Model : Model
+    -Dataset : Dataset
+    +Status() : bool
+    +StartTraining() : error
+    +SetModel(model : Model)
+    +SetDataset(dataset : Dataset)
+    +AddSubscriber(subscriber : ISubscriber)
+    +RemoveSubscriber(subscriber : ISubscriber)
+    +Notify()
+}
+
+' Define the Concrete Subscriber
+class Client {
+    -name : string
+    -age : int
+    +Update(ctx : Context)
+    +UpdateName(name : string)
+}
+
+' Relationships
+IObservable <|.. AutoMLTrainer
+ISubscriber <|.. Client
+AutoMLTrainer "1" -right-> "*" ISubscriber : notifies >
+Client -left-> AutoMLTrainer : observes >
+
+@enduml

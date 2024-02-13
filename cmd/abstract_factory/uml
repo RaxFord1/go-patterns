@@ -1,0 +1,74 @@
+// PlantUML
+
+@startuml
+
+' Define Interfaces for Abstract Products
+interface Algorithm {
+    +train()
+    +predict()
+}
+interface Dataset {
+    +load()
+    +preprocess()
+}
+
+' Define Concrete Products
+class LinearRegression {
+    +train()
+    +predict()
+}
+class DecisionTree {
+    +train()
+    +predict()
+}
+class RegressionDataset {
+    +load()
+    +preprocess()
+}
+class ClassificationDataset {
+    +load()
+    +preprocess()
+}
+
+' Define Abstract Factory Interface
+interface AbstractFactory {
+    +createAlgorithm() : Algorithm
+    +createDataset() : Dataset
+}
+
+' Define Concrete Factories
+class RegressionFactory {
+    +createAlgorithm() : Algorithm
+    +createDataset() : Dataset
+}
+class ClassificationFactory {
+    +createAlgorithm() : Algorithm
+    +createDataset() : Dataset
+}
+
+' Define Client
+class Client {
+    +runMachineLearningScenario(factory : AbstractFactory)
+    +main()
+}
+
+' Define Relationships between Abstract Factory and Concrete Factories
+AbstractFactory <|.. RegressionFactory
+AbstractFactory <|.. ClassificationFactory
+
+' Define Relationships between Concrete Factories and Concrete Products
+RegressionFactory -down-> LinearRegression : creates
+RegressionFactory -down-> RegressionDataset : creates
+ClassificationFactory -down-> DecisionTree : creates
+ClassificationFactory -down-> ClassificationDataset : creates
+
+' Define Relationships between Interfaces and their Implementations
+Algorithm <|.up. LinearRegression
+Algorithm <|.up. DecisionTree
+Dataset <|.up. RegressionDataset
+Dataset <|.up. ClassificationDataset
+
+Client -down-> RegressionFactory : uses
+Client -down-> ClassificationFactory : uses
+
+@enduml

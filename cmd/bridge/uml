@@ -1,0 +1,84 @@
+@startuml
+
+' Define the Abstraction
+interface IDataHandler {
+    +HandleData(data : interface{}) : float64
+    +SetEnvironment(env : ExecutionEnvironment)
+    +SetModel(model : Model)
+}
+
+' Define Concrete Abstractions
+class StructuredDataHandlers {
+    -Environment : ExecutionEnvironment
+    -Model : StructuredDataModel
+    +HandleData(data : interface{}) : float64
+    +SetEnvironment(env : ExecutionEnvironment)
+    +SetModel(model : StructuredDataModel)
+}
+
+class UnstructuredDataHandlers {
+    -Environment : ExecutionEnvironment
+    -Model : NLPModel
+    -LastAnswer : string
+    +HandleData(data : interface{}) : float64
+    +SetEnvironment(env : ExecutionEnvironment)
+    +SetModel(model : NLPModel)
+}
+
+' Define the Implementor Interface
+interface ExecutionEnvironment {
+    +ExecuteTask(funcToRun : ExecuteFunc, inputData : []float64) : float64
+}
+
+' Define Concrete Implementors
+class CPUEnvironment {
+    -CPUName : string
+    +ExecuteTask(funcToRun : ExecuteFunc, inputData : []float64) : float64
+}
+
+class GPUEnvironment {
+    -GPUName : string
+    +ExecuteTask(funcToRun : ExecuteFunc, inputData : []float64) : float64
+}
+
+class DistributedEnvironment {
+    -CPUName : []string
+    -GPUName : []string
+    +ExecuteTask(funcToRun : ExecuteFunc, inputData : []float64) : float64
+    +StringCPU() : string
+    +StringGPU() : string
+}
+
+' Define Model Interfaces and Implementations
+interface StructuredDataModel {
+    +Predict(input : []float64) : float64
+    // Other methods
+}
+
+interface NLPModel {
+    +PredictNextWord(input : []float64) : float64
+    // Other methods
+}
+
+' Define Client
+class Client {
+    +main()
+}
+
+' Concrete model classes are omitted for brevity
+' class ConcreteStructuredDataModel
+' class ConcreteNLPModel
+
+' Relationships
+IDataHandler <|.. StructuredDataHandlers
+IDataHandler <|.. UnstructuredDataHandlers
+ExecutionEnvironment <|.. CPUEnvironment
+ExecutionEnvironment <|.. GPUEnvironment
+ExecutionEnvironment <|.. DistributedEnvironment
+StructuredDataHandlers -right-> ExecutionEnvironment : uses >
+UnstructuredDataHandlers -right-> ExecutionEnvironment : uses >
+StructuredDataHandlers -down-> StructuredDataModel : uses >
+UnstructuredDataHandlers -down-> NLPModel : uses >
+Client -down-> IDataHandler : uses >
+
+@enduml

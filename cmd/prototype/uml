@@ -1,0 +1,28 @@
+@startuml
+
+' Define Prototype Interface
+interface Prototype {
+    +Clone() : Prototype
+    +String() : string
+}
+
+' Define Concrete Prototype
+class NN {
+    -params : [][]float64
+    -Name : string
+    -count : int
+    +Clone() : Prototype
+    +String() : string
+    +NewNN(params : [][]float64, name : string) : NN
+}
+
+' Client that uses the Prototype
+class Client {
+    +main()
+}
+
+' Relationships
+Prototype <|.. NN
+Client .down.> NN : uses >
+
+@enduml
